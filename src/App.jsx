@@ -1,7 +1,8 @@
 // @ts-check
 
 import React, { useState } from 'react';
-import { useImmer } from 'use-immer';
+// import { useImmer } from 'use-immer';
+import _ from 'lodash';
 import getModal from './modals/index.js';
 
 const task = (task, renameHandler, removeHandler) => (
@@ -27,7 +28,7 @@ const task = (task, renameHandler, removeHandler) => (
 );
 
 const App = () => {
-  const [state, setState] = useState(['kill bill', 'make tea']);
+  const [state, setState] = useState([]);
   const [name, setName] = useState('adding');
   const [show, setShow] = useState(false);
 
@@ -36,12 +37,12 @@ const App = () => {
     setShow(true);
   };
 
-  const renameHandler = () => {
+  const renameModalHandler = () => {
     setShow(true);
     setName('renaming');
   };
 
-  const removeHandler = () => {
+  const removeModalHandler = () => {
     setName('removing');
     setShow(true);
   };
@@ -55,7 +56,7 @@ const App = () => {
       <button onClick={addTaskHandler} data-testid='item-add' className='btn btn-secondary'>
         add
       </button>
-      {state.map((item) => task(item, renameHandler, removeHandler))}
+      {state.map((item) => task(item, renameModalHandler, removeModalHandler))}
       {getModal(name)(show, closeHandler)}
     </div>
   );

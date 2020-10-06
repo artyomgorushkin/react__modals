@@ -7,6 +7,15 @@ import { Modal, FormGroup, FormControl } from 'react-bootstrap';
 export default (show, handler) => {
   const handleClose = () => handler();
 
+  const formik = useFormik({
+    initialValues: {
+      value: 'fghjfgj'
+    },
+    onSubmit: (values, { resetForm }) => {
+      console.log(values);
+    },
+  })
+
   return (
     <Modal show={show} className='modal-dialog'>
       <div className='modal-content'>
@@ -18,12 +27,14 @@ export default (show, handler) => {
           </button>
         </div>
         <div className='modal-body'>
-          <form>
+          <form onSubmit={formik.handleSubmit}>
             <FormGroup className='form-group'>
               <FormControl
                 className='form-control'
                 data-testid='input-body'
                 name='body'
+                onChange={formik.handleChange}
+                value={formik.values.value}
                 required=''
               />
             </FormGroup>

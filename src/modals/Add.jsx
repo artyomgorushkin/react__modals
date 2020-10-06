@@ -1,18 +1,18 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import _ from 'lodash';
 import { useFormik } from 'formik';
 import { Modal, FormGroup, FormControl } from 'react-bootstrap';
 
 // BEGIN (write your solution here)
-export default () => {
-  console.log();
-  // const [show, setShow] = useState(true);
+export default (show, handler) => {
+  const handleClose = () => handler();
+
   return (
-    <Modal show={true} className='modal-dialog'>
+    <Modal show={show} className='modal-dialog'>
       <div className='modal-content'>
         <div className='modal-header'>
           <div className='modal-title h4'>Add</div>
-          <button className='close' type='button'>
+          <button onClick={handleClose} className='close' type='button'>
             <span aria-hidden='true'>×</span>
             <span className='sr-only'>Close</span>
           </button>
@@ -25,7 +25,6 @@ export default () => {
                 data-testid='input-body'
                 name='body'
                 required=''
-                value=''
               />
             </FormGroup>
             <input className='btn btn-primary' type='submit' value='submit' />
@@ -34,5 +33,5 @@ export default () => {
       </div>
     </Modal>
   );
-}
+};
 // END

@@ -6,8 +6,8 @@ import _ from 'lodash';
 import getModal from './modals/index.js';
 
 const task = (task, renameHandler, removeHandler) => (
-  <div>
-    <span className='mr-3'>{task}</span>
+  <div key={task.id}>
+    <span className='mr-3'>{task.text}</span>
     <button
       onClick={renameHandler}
       type='button'
@@ -31,6 +31,11 @@ const App = () => {
   const [state, setState] = useState([]);
   const [name, setName] = useState('adding');
   const [show, setShow] = useState(false);
+
+  const addTaskAction = (task) => {
+    setState([...state, { text: task, id: _.uniqueId() }]);
+    setShow(false);
+  }
 
   const addTaskHandler = () => {
     setName('adding');
@@ -57,7 +62,7 @@ const App = () => {
         add
       </button>
       {state.map((item) => task(item, renameModalHandler, removeModalHandler))}
-      {getModal(name)(show, closeHandler)}
+      {getModal(name)(show, closeHandler, addTaskAction)}
     </div>
   );
 };

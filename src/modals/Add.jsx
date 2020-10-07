@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import _ from 'lodash';
 import { useFormik } from 'formik';
 import { Modal, FormGroup, FormControl } from 'react-bootstrap';
@@ -9,7 +9,7 @@ export default (show, handler) => {
 
   const formik = useFormik({
     initialValues: {
-      value: 'fghjfgj'
+      task: ''
     },
     onSubmit: (values, { resetForm }) => {
       console.log(values);
@@ -32,10 +32,10 @@ export default (show, handler) => {
               <FormControl
                 className='form-control'
                 data-testid='input-body'
-                name='body'
+                name='task'
                 onChange={formik.handleChange}
-                value={formik.values.value}
-                required=''
+                value={formik.values.task}
+                required
               />
             </FormGroup>
             <input className='btn btn-primary' type='submit' value='submit' />

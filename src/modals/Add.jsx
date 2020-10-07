@@ -14,6 +14,7 @@ export default (show, handler, action) => {
     onSubmit: (values, { resetForm }) => {
       action(values.task);
       resetForm();
+      handler(false);
     },
   })
 

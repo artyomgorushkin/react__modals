@@ -3,8 +3,18 @@ import { useFormik } from 'formik';
 import { Modal, FormGroup, FormControl } from 'react-bootstrap';
 
 // BEGIN (write your solution here)
-export default (show, handler) => {
+export default (show, handler, action, task) => {
   const handleClose = () => handler();
+  const formik = useFormik({
+    initialValues: {
+      task: '',
+    },
+    onSubmit: (values, { resetForm }) => {
+      action(values.task);
+      resetForm();
+      handler(false);
+    },
+  });
 
   return (
     <Modal show={show} className='modal-dialog'>
@@ -17,14 +27,15 @@ export default (show, handler) => {
           </button>
         </div>
         <div className='modal-body'>
-          <form>
+          <form onSubmit={formik.handleSubmit}>
             <div className='form-group'>
               <input
                 className='form-control'
                 data-testid='input-body'
-                name='body'
+                name='task'
                 required=''
-                value='first task!'
+                onChange={formik.handleChange}
+                value={formik.values.task || task.text}
               />
             </div>
             <input className='btn btn-primary' type='submit' value='submit' />

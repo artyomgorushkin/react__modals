@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from 'react';
-import { Modal, FormGroup, FormControl } from 'react-bootstrap';
+import React from 'react';
+import { Modal, FormGroup } from 'react-bootstrap';
 
 // BEGIN (write your solution here)
-export default (show, handler) => {
+export default (show, handler, action) => {
   const handleClose = () => handler();
 
   return (
@@ -15,10 +15,10 @@ export default (show, handler) => {
             <span className='sr-only'>Close</span>
           </button>
         </div>
-        <div class='modal-body'>
-          <form>
-            <div class='form-group'>
-              <input class='btn btn-danger' type='submit' value='remove' />
+        <div className='modal-body'>
+          <form onSubmit={action}>
+            <div className='form-group'>
+              <input className='btn btn-danger' type='submit' value='remove' />
             </div>
           </form>
         </div>

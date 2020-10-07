@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import { Modal, FormGroup, FormControl } from 'react-bootstrap';
 
 // BEGIN (write your solution here)
-export default (show, handler) => {
+export default (show, handler, action) => {
   const handleClose = () => handler();
 
   const formik = useFormik({
@@ -12,7 +12,8 @@ export default (show, handler) => {
       task: ''
     },
     onSubmit: (values, { resetForm }) => {
-      console.log(values);
+      action(values.task);
+      resetForm();
     },
   })
 

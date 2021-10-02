@@ -1,10 +1,9 @@
 import React from 'react';
-import { Modal, FormGroup } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 
-// BEGIN (write your solution here)
-export default (show, handler, action) => {
+export default (show, handler, action, task) => {
+  console.log('modal');
   const handleClose = () => handler();
-
   return (
     <Modal show={show} className='modal-dialog'>
       <div className='modal-content'>
@@ -26,4 +25,3 @@ export default (show, handler, action) => {
     </Modal>
   );
 };
-// END

@@ -39,8 +39,6 @@ const Task = ({ props: { item, renameModalHandler, removeModalHandler } }) => {
 
 const App = () => {
   const [state, setState] = useState([{ id: _.uniqueId(), text: 'first_task' }]);
-  const [name, setName] = useState('');
-  const [show, setShow] = useState(false);
   // const [currentTask, setCurrentTask] = useState(null);
   const [modalInfo, setModalInfo] = useState({ type: null, item: null });
 
@@ -60,8 +58,7 @@ const App = () => {
   const addTaskHandler = () => setModalInfo({ type: 'adding', item: null });
 
   const renameModalHandler = (item) => {
-    console.log('renameModalHandler');
-    // setName('renaming');
+    setModalInfo({ type: 'renaming', item });
   };
 
   const removeModalHandler = (item) => {
@@ -78,10 +75,12 @@ const App = () => {
   };
 
   const renderModal = ({ type, item }, hideModal) => {
+    console.log('item: ', item);
     if (!type) return null;
 
     const Component = getModal(type);
-    return <Component onHide={hideModal} action={actionMapping[type]} item={item} />;
+    return <Component onHide={hideModal} action={actionMapping[type]} task={item} />;
+    // return <p>asdfasfdf</p>;
   };
 
   return (
@@ -93,7 +92,6 @@ const App = () => {
         return <Task props={{ item, renameModalHandler, removeModalHandler }} />;
       })}
       {renderModal(modalInfo, hideModal)}
-      {name && <p>{name}</p>}
     </div>
   );
 };

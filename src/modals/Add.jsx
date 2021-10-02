@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import { Modal, FormGroup, FormControl } from 'react-bootstrap';
 
 // BEGIN (write your solution here)
-export default ({ onHide, action, item }) => {
+export default ({ onHide, action }) => {
   const formik = useFormik({
     initialValues: {
       task: '',

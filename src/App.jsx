@@ -5,11 +5,11 @@ import React, { useState } from 'react';
 import _ from 'lodash';
 import getModal from './modals/index.js';
 
-const task = (task, renameHandler, removeHandler) => (
-  <div key={task.id}>
-    <span className='mr-3'>{task.text}</span>
+const Task = ({ props: { item, renameModalHandler, removeModalHandler } }) => (
+  <div key={item.id}>
+    <span className='mr-3'>{item.text}</span>
     <button
-      onClick={renameHandler}
+      onClick={renameModalHandler}
       type='button'
       className='border-0 btn-link p-0 mr-3'
       data-testid='item-rename'
@@ -17,7 +17,7 @@ const task = (task, renameHandler, removeHandler) => (
       rename
     </button>
     <button
-      onClick={removeHandler}
+      onClick={removeModalHandler}
       type='button'
       className='border-0 btn-link p-0'
       data-testid='item-remove'
@@ -35,7 +35,7 @@ const App = () => {
   const addTaskAction = (task) => {
     setState([...state, { text: task, id: _.uniqueId() }]);
     setShow(false);
-  }
+  };
 
   const addTaskHandler = () => {
     setName('adding');
@@ -61,7 +61,9 @@ const App = () => {
       <button onClick={addTaskHandler} data-testid='item-add' className='btn btn-secondary'>
         add
       </button>
-      {state.map((item) => task(item, renameModalHandler, removeModalHandler))}
+      {state.map((item) => {
+        return <Task props={{ item, renameModalHandler, removeModalHandler }} />;
+      })}
       {getModal(name)(show, closeHandler, addTaskAction)}
     </div>
   );

@@ -3,26 +3,26 @@ import { useFormik } from 'formik';
 import { Modal, FormGroup, FormControl } from 'react-bootstrap';
 
 // BEGIN (write your solution here)
-export default (show, handler, action) => {
-  const handleClose = () => handler();
-
+export default ({ onHide, action, item }) => {
   const formik = useFormik({
     initialValues: {
       task: '',
     },
     onSubmit: (values, { resetForm }) => {
       action(values.task);
-      handler(false);
       resetForm();
+      onHide();
     },
   });
 
+  const onClick = () => onHide();
+
   return (
-    <Modal show={show} className='modal-dialog'>
+    <Modal show className='modal-dialog' onHide={onHide}>
       <div className='modal-content'>
         <div className='modal-header'>
           <div className='modal-title h4'>Add</div>
-          <button onClick={handleClose} className='close' type='button'>
+          <button onClick={onClick} className='close' type='button'>
             <span aria-hidden='true'>×</span>
             <span className='sr-only'>Close</span>
           </button>

@@ -10,7 +10,7 @@ export default (show, handler, action, task) => {
       task: '',
     },
     onSubmit: (values, { resetForm }) => {
-      action(values.task);
+      action(task.id, values.task);
       resetForm();
       handler(false);
     },

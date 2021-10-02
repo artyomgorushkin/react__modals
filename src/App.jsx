@@ -39,32 +39,19 @@ const Task = ({ props: { item, renameModalHandler, removeModalHandler } }) => {
 
 const App = () => {
   const [state, setState] = useState([{ id: _.uniqueId(), text: 'first_task' }]);
-  // const [currentTask, setCurrentTask] = useState(null);
   const [modalInfo, setModalInfo] = useState({ type: null, item: null });
 
-  const addTaskAction = (task) => {
-    setState([...state, { text: task, id: _.uniqueId() }]);
-    // setShow(false);
-  };
+  const addTaskAction = (task) => setState([...state, { text: task, id: _.uniqueId() }]);
 
-  const renameTaskAction = (id, text) => {
-    setState((state) => state.map((item) => (item.id !== id ? item : { id, text })));
-  };
+  const renameTaskAction = (id, text) => setState((state) => state.map((item) => (item.id !== id ? item : { id, text })));
 
-  const removeTaskAction = (id, text) => {
-    console.log('removeTaskAction');
-  };
+  const removeTaskAction = (id) => setState(state => state.filter(item => item.id !== id))
 
   const addTaskHandler = () => setModalInfo({ type: 'adding', item: null });
 
-  const renameModalHandler = (item) => {
-    setModalInfo({ type: 'renaming', item });
-  };
+  const renameModalHandler = (item) => setModalInfo({ type: 'renaming', item });
 
-  const removeModalHandler = (item) => {
-    console.log('removeModalHandler');
-    // setName('removing');
-  };
+  const removeModalHandler = (item) => setModalInfo({ type: 'removing', item });
 
   const hideModal = () => setModalInfo({ type: null, item: null });
 
@@ -75,12 +62,10 @@ const App = () => {
   };
 
   const renderModal = ({ type, item }, hideModal) => {
-    console.log('item: ', item);
     if (!type) return null;
 
     const Component = getModal(type);
     return <Component onHide={hideModal} action={actionMapping[type]} task={item} />;
-    // return <p>asdfasfdf</p>;
   };
 
   return (

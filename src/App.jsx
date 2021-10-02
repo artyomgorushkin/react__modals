@@ -5,11 +5,11 @@ import React, { useState } from 'react';
 import _ from 'lodash';
 import getModal from './modals/index.js';
 
-const task = (item, renameHandler, removeHandler) => (
+const Task = ({ props: { item, renameModalHandler, removeModalHandler } }) => (
   <div key={item.id}>
     <span className='mr-3'>{item.text}</span>
     <button
-      onClick={renameHandler(item)}
+      onClick={renameModalHandler}
       type='button'
       className='border-0 btn-link p-0 mr-3'
       data-testid='item-rename'
@@ -17,7 +17,7 @@ const task = (item, renameHandler, removeHandler) => (
       rename
     </button>
     <button
-      onClick={removeHandler(item)}
+      onClick={removeModalHandler}
       type='button'
       className='border-0 btn-link p-0'
       data-testid='item-remove'
@@ -28,60 +28,43 @@ const task = (item, renameHandler, removeHandler) => (
 );
 
 const App = () => {
-  const [state, setState] = useState([
-  ]);
-  const [showAdding, setShowAdding] = useState(false);
-  const [showRemove, setShowRemove] = useState(false);
-  const [showRename, setShowRename] = useState(false);
-  const [currentTask, setCurrentTask] = useState({ id: '', text: '' });
-
-  const closeHandler = (func) => () => {
-    func(false);
-  };
+  const [state, setState] = useState([]);
+  const [name, setName] = useState('adding');
+  const [show, setShow] = useState(false);
 
   const addTaskAction = (task) => {
     setState([...state, { text: task, id: _.uniqueId() }]);
-  };
-
-  const removeTaskAction = (e) => {
-    e.preventDefault();
-    const updatedState = state.filter((item) => item.id !== currentTask.id);
-    setState([...updatedState]);
-    setShowRemove(false);
-  };
-
-  const renameAction = (name) => {
-    console.log('name: ', name);
-    const updatedState = state.map((item) => {
-      if (item.id === currentTask.id) return { text: name, id: [item.id] };
-      return item;
-    });
-    setState([...updatedState]);
+    setShow(false);
   };
 
   const addTaskHandler = () => {
-    setShowAdding(true);
+    setName('adding');
+    setShow(true);
   };
 
-  const renameModalHandler = (item) => () => {
-    setCurrentTask(item);
-    setShowRename(true);
+  const renameModalHandler = () => {
+    setShow(true);
+    setName('renaming');
   };
 
-  const removeModalHandler = (item) => () => {
-    setShowRemove(true);
-    setCurrentTask(item);
+  const removeModalHandler = () => {
+    setName('removing');
+    setShow(true);
+  };
+
+  const closeHandler = () => {
+    setShow(false);
   };
 
   return (
     <div className='mb-3'>
       <button onClick={addTaskHandler} data-testid='item-add' className='btn btn-secondary'>
-        add {currentTask.text}
+        add
       </button>
-      {state.map((item) => task(item, renameModalHandler, removeModalHandler))}
-      {getModal('adding')(showAdding, closeHandler(setShowAdding), addTaskAction)}
-      {getModal('removing')(showRemove, closeHandler(setShowRemove), removeTaskAction)}
-      {getModal('renaming')(showRename, closeHandler(setShowRename), renameAction, currentTask)}
+      {state.map((item) => {
+        return <Task props={{ item, renameModalHandler, removeModalHandler }} />;
+      })}
+      {getModal(name)(show, closeHandler, addTaskAction)}
     </div>
   );
 };

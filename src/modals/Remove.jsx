@@ -1,15 +1,20 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
 
-export default (show, handler, action, task) => {
-  console.log('modal');
-  const handleClose = () => handler();
+export default ({ onHide, action, task }) => {
+  const onClick = () => onHide();
+
+  const onRemoveClickHandler = () => {
+    action(task.id);
+    onHide();
+  };
+
   return (
-    <Modal show={show} className='modal-dialog'>
+    <Modal show className='modal-dialog'>
       <div className='modal-content'>
         <div className='modal-header'>
           <div className='modal-title h4'>Remove</div>
-          <button onClick={handleClose} className='close' type='button'>
+          <button onClick={onClick} className='close' type='button'>
             <span aria-hidden='true'>×</span>
             <span className='sr-only'>Close</span>
           </button>
@@ -17,7 +22,12 @@ export default (show, handler, action, task) => {
         <div className='modal-body'>
           <form onSubmit={action}>
             <div className='form-group'>
-              <input className='btn btn-danger' type='submit' value='remove' />
+              <input
+                className='btn btn-danger'
+                onClick={onRemoveClickHandler}
+                type='button'
+                value='remove'
+              />
             </div>
           </form>
         </div>

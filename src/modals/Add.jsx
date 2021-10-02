@@ -1,5 +1,4 @@
-import React, { useEffect, useRef } from 'react';
-import _ from 'lodash';
+import React from 'react';
 import { useFormik } from 'formik';
 import { Modal, FormGroup, FormControl } from 'react-bootstrap';
 
@@ -9,14 +8,14 @@ export default (show, handler, action) => {
 
   const formik = useFormik({
     initialValues: {
-      task: ''
+      task: '',
     },
     onSubmit: (values, { resetForm }) => {
       action(values.task);
-      resetForm();
       handler(false);
+      resetForm();
     },
-  })
+  });
 
   return (
     <Modal show={show} className='modal-dialog'>
